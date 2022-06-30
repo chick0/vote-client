@@ -1,0 +1,25 @@
+{
+    "name": "vote-client",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "p": "prettier --write \"{,!(node_modules|public|dist)/**/}*.{js,scss,css,json,svelte}\""
+    },
+    "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+        "bulma": "^0.9.4",
+        "prettier": "^2.7.1",
+        "prettier-plugin-svelte": "^2.7.0",
+        "sass": "^1.53.0",
+        "svelte": "^3.44.0",
+        "svelte-preprocess": "^4.10.7",
+        "vite": "^2.9.9"
+    },
+    "dependencies": {
+        "svelte-spa-router": "^3.2.0"
+    }
+}
