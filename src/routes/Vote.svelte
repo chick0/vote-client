@@ -1,6 +1,8 @@
 <script>
     import { push, location } from "svelte-spa-router";
-    import { WS, API_OPTIONS, API_VOTE, API_SELECT } from "../url.js";
+    import { get } from "svelte/store";
+    import { webSocketStore } from "../store.js";
+    import { WS_VOTE, API_OPTIONS, API_VOTE, API_SELECT } from "../url.js";
     import { getToken, getPayload } from "../token.js";
     export let params = {};
 
@@ -30,7 +32,6 @@
             });
     }
 
-    let ws = undefined;
     let status = -1;
     let title = "";
     let options = [];
@@ -38,9 +39,11 @@
     let unsubscribe = undefined;
     unsubscribe = location.subscribe((path) => {
         if (!path.startsWith(`/vote/${params.vote_id}`)) {
-            if (ws != undefined) {
-                ws.close();
-                ws = undefined;
+            let socketStore = get(webSocketStore);
+
+            if(socketStore != undefined){
+                socketStore.close();
+                webSocketStore.set(undefined);
             }
 
             unsubscribe();
@@ -48,7 +51,13 @@
     });
 
     function initWebSocket() {
-        ws = new WebSocket(WS);
+        let socketStore = get(webSocketStore);
+
+        if(socketStore != undefined){
+            socketStore.close();
+        }
+
+        let ws = new WebSocket(WS_VOTE);
 
         ws.onopen = () => {
             ws.send(TOKEN.slice(7));
@@ -57,19 +66,14 @@
         ws.onmessage = (e) => {
             status = Number(e.data);
         };
+
+        webSocketStore.set(ws);
     }
 
     $: if (status == 0) {
-        if (ws != undefined) {
-            ws.close();
-            ws = undefined;
-        }
-
         initWebSocket();
     } else if (status == 1) {
-        if (ws == undefined) {
-            initWebSocket();
-        }
+        initWebSocket();
 
         fetch(API_OPTIONS, {
             method: "GET",
@@ -87,9 +91,10 @@
                 }
             });
     } else if (status == 2) {
+        let ws = get(webSocketStore);
         if (ws != undefined) {
             ws.close();
-            ws = undefined;
+            webSocketStore.set(undefined);
         }
 
         push(`/result/${params.vote_id}`);

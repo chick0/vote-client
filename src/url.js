@@ -3,7 +3,8 @@ export const HOST =
         ? "https://voteapi.ch1ck.xyz"
         : "http://localhost:28282";
 
-export const WS          = HOST.replace("http", "ws") + "/ws";
+export const WS_VOTE     = HOST.replace("http", "ws") + "/ws/vote";
+
 export const API_VOTE    = HOST + "/api/vote";
 export const API_RESULT  = HOST + "/api/result";
 export const API_JOIN    = HOST + "/api/join";
