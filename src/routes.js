@@ -1,8 +1,12 @@
 import Home from "./routes/Home.svelte";
-import Join from "./routes/Join.svelte";
+import MyVotes from "./routes/MyVotes.svelte";
+// Vote
+import Create from "./routes/Create.svelte";
+import Vote from "./routes/Vote.svelte";
 import Panel from "./routes/Panel.svelte";
 import Result from "./routes/Result.svelte";
-import Vote from "./routes/Vote.svelte";
+// Join
+import Join from "./routes/Join.svelte";
 
 // etc
 import NotFound from "./NotFound.svelte";
@@ -10,10 +14,14 @@ import NotFound from "./NotFound.svelte";
 // Routes
 export default {
     "/": Home,
-    "/join/:vote_id/:code": Join,
+    "/my-votes": MyVotes,
+
+    "/create": Create,
+    "/vote/:vote_id": Vote,
     "/panel/:vote_id": Panel,
     "/result/:vote_id": Result,
-    "/vote/:vote_id": Vote,
+
+    "/join/:vote_id/:code": Join,
 
     "*": NotFound,
 };

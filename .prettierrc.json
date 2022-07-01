@@ -8,6 +8,7 @@
     "bracketSameLine": true,
     "bracketSpacing": true,
     "arrowParens": "always",
+    "proseWrap": "never",
     "plugins": ["prettier-plugin-svelte"],
     "svelteStrictMode": true,
     "svelteAllowShorthand": false
