@@ -99,7 +99,7 @@
     }
 
     // websocket
-    $: if(title.length != 0 ){
+    $: if (title.length != 0) {
         let ws = new WebSocket(WS_PANEL);
         ws.onopen = () => {
             ws.send(TOKEN.slice(7));
@@ -110,14 +110,14 @@
             joined = payload[0];
             selected = payload[1];
 
-            if(max == selected){
+            if (max == selected) {
                 alert("모든 사람이 투표에 참여해 투표가 마감됩니다.");
                 push(`/result/${params.vote_id}`);
             }
         };
 
         ws.onclose = (e) => {
-            if(e.reason.length != 0){
+            if (e.reason.length != 0) {
                 alert(e.reason);
             }
         };

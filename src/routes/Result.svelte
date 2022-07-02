@@ -49,22 +49,21 @@
 
     Chart.register(ArcElement, Tooltip, PieController);
 
-    $: if(canvas != undefined && result.length != 0){
-        new Chart(
-            canvas.getContext("2d"),
-            {
-                type: 'pie',
-                data: {
-                    labels: result.map((x) => x.name),
-                    datasets: [{
+    $: if (canvas != undefined && result.length != 0) {
+        new Chart(canvas.getContext("2d"), {
+            type: "pie",
+            data: {
+                labels: result.map((x) => x.name),
+                datasets: [
+                    {
                         label: title,
                         data: result.map((x) => x.score),
                         backgroundColor: result.map((x) => x.color),
-                        hoverOffset: 4
-                    }]
-                },
-            }
-        );
+                        hoverOffset: 4,
+                    },
+                ],
+            },
+        });
     }
 </script>
 

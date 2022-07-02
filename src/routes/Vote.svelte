@@ -41,7 +41,7 @@
         if (!path.startsWith(`/vote/${params.vote_id}`)) {
             let socketStore = get(webSocketStore);
 
-            if(socketStore != undefined){
+            if (socketStore != undefined) {
                 socketStore.close();
                 webSocketStore.set(undefined);
             }
@@ -55,7 +55,7 @@
     function initWebSocket() {
         let socketStore = get(webSocketStore);
 
-        if(socketStore != undefined){
+        if (socketStore != undefined) {
             socketStore.close();
         }
 
@@ -76,7 +76,7 @@
     $: if (status == 0) {
         initWebSocket();
     } else if (status == 1) {
-        if(initHere == false){
+        if (initHere == false) {
             initWebSocket();
         }
 
