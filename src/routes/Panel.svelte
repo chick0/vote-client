@@ -109,6 +109,11 @@
             let payload = e.data.split(",");
             joined = payload[0];
             selected = payload[1];
+
+            if(max == selected){
+                alert("모든 사람이 투표에 참여해 투표가 마감됩니다.");
+                push(`/result/${params.vote_id}`);
+            }
         };
 
         ws.onclose = (e) => {
