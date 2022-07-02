@@ -9,7 +9,6 @@
     location.subscribe((path) => {
         let socket = get(webSocketStore);
         if (socket != undefined) {
-            console.log("closed from App.svelte!");
             socket.close();
             webSocketStore.set(undefined);
         }
