@@ -4,6 +4,7 @@ export const HOST =
         : "http://localhost:28282";
 
 export const WS_VOTE     = HOST.replace("http", "ws") + "/ws/vote";
+export const WS_PANEL    = HOST.replace("http", "ws") + "/ws/panel";
 
 export const API_VOTE    = HOST + "/api/vote";
 export const API_RESULT  = HOST + "/api/result";

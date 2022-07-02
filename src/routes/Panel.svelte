@@ -1,7 +1,8 @@
 <script>
     import { push } from "svelte-spa-router";
-    import { API_VOTE, API_QRCODE, API_OPTIONS } from "../url.js";
+    import { WS_PANEL, API_VOTE, API_QRCODE, API_OPTIONS } from "../url.js";
     import { getToken, getPayload } from "../token.js";
+    import { webSocketStore } from "../store.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
@@ -95,6 +96,32 @@
                 options = [];
                 options = json.options;
             });
+    }
+
+    // websocket
+    $: if(title.length != 0 ){
+        let ws = new WebSocket(WS_PANEL);
+        ws.onopen = () => {
+            ws.send(TOKEN.slice(7));
+        };
+
+        ws.onmessage = (e) => {
+            let payload = e.data.split(",");
+            joined = payload[0];
+            selected = payload[1];
+        };
+
+        ws.onclose = (e) => {
+            if(e.reason.length != 0){
+                alert(e.reason);
+            }
+        };
+
+        ws.onerror = () => {
+            alert("실시간 투표 정보를 불러오는 과정에서 오류가 발생했습니다.");
+        };
+
+        webSocketStore.set(ws);
     }
 </script>
 

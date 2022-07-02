@@ -1,10 +1,19 @@
 <script>
     import Router from "svelte-spa-router";
     import { push, location } from "svelte-spa-router";
+    import { get } from "svelte/store";
     import routes from "./routes.js";
     import { getToken } from "./token.js";
+    import { webSocketStore } from "./store.js";
 
     location.subscribe((path) => {
+        let socket = get(webSocketStore);
+        if(socket != undefined){
+            console.log("closed from App.svelte!");
+            socket.close();
+            webSocketStore.set(undefined);
+        }
+
         if (path.startsWith("/create")) {
             let last = localStorage.getItem("last");
             if (last != null) {

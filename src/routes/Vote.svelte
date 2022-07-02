@@ -50,6 +50,8 @@
         }
     });
 
+    let initHere = false;
+
     function initWebSocket() {
         let socketStore = get(webSocketStore);
 
@@ -68,12 +70,15 @@
         };
 
         webSocketStore.set(ws);
+        initHere = true;
     }
 
     $: if (status == 0) {
         initWebSocket();
     } else if (status == 1) {
-        initWebSocket();
+        if(initHere == false){
+            initWebSocket();
+        }
 
         fetch(API_OPTIONS, {
             method: "GET",
@@ -91,12 +96,6 @@
                 }
             });
     } else if (status == 2) {
-        let ws = get(webSocketStore);
-        if (ws != undefined) {
-            ws.close();
-            webSocketStore.set(undefined);
-        }
-
         push(`/result/${params.vote_id}`);
     }
 
