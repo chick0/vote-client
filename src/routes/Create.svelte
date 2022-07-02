@@ -7,6 +7,8 @@
     let max = 0;
 
     let error_counter = 0;
+
+    let is_loading = false;
 </script>
 
 <section class="section">
@@ -56,8 +58,15 @@
         <div class="field">
             <div class="control">
                 <button
-                    class="button is-primary is-large is-fullwidth"
+                    class="button is-primary is-large is-fullwidth {is_loading == true ? 'is-loading' : ''}"
                     on:click="{() => {
+                        if(is_loading == true){
+                            alert("투표 생성 요청이 처리중입니다...");
+                            return;
+                        } else {
+                            is_loading = true;
+                        }
+
                         fetch(API_VOTE, {
                             method: 'POST',
                             headers: {
@@ -72,6 +81,7 @@
                             .then((json) => {
                                 if (json.detail != undefined) {
                                     alert(json.detail.msg);
+                                    is_loading = false;
                                 } else {
                                     setToken(
                                         json.vote_id,
@@ -91,6 +101,7 @@
                                 }
 
                                 error_counter += 1;
+                                is_loading = false;
                             });
                     }}">
                     다음
