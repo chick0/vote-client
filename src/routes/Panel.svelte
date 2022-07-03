@@ -94,6 +94,8 @@
     let options = [];
     let isFinished = true;
 
+    let newOption = undefined;
+
     $: if (title.length != 0) {
         fetch(API_OPTIONS, {
             method: "GET",
@@ -221,7 +223,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input class="input" id="opt-new" />
+                                <input class="input" id="opt-new" bind:this="{newOption}" />
                             </div>
                         </div>
                     </div>
@@ -236,8 +238,6 @@
                                     class="button is-primary 
                                 {isFinished == true ? '' : 'is-loading'}"
                                     on:click="{() => {
-                                        const target = document.getElementById('opt-new');
-
                                         isFinished = false;
                                         fetch(API_OPTIONS, {
                                             method: 'POST',
@@ -246,8 +246,7 @@
                                                 'Content-Type': 'application/json',
                                             },
                                             body: JSON.stringify({
-                                                // @ts-ignore
-                                                name: target.value,
+                                                name: newOption.value,
                                             }),
                                         })
                                             .then((resp) => resp.json())
@@ -256,13 +255,13 @@
                                                     options.push(json);
                                                     options = options;
 
-                                                    // @ts-ignore
-                                                    target.value = '';
+                                                    newOption.value = '';
                                                 } else {
                                                     alert(json.detail.msg);
                                                 }
 
                                                 isFinished = true;
+                                                newOption.focus();
                                             })
                                             .catch(() => {
                                                 alert('네트워크 오류가 발생했습니다.');
