@@ -381,5 +381,3 @@
         </div>
     </section>
 {/if}
-
-<section class="section"></section>
