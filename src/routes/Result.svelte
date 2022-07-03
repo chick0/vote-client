@@ -1,16 +1,17 @@
 <script>
     import { push } from "svelte-spa-router";
     import { Chart, ArcElement, Tooltip, PieController } from "chart.js";
-    import { getToken } from "../token.js";
+    import { getToken, getPayload } from "../token.js";
     import { API_RESULT } from "../url.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
+    let payload = getPayload(TOKEN);
 
     let title = localStorage.getItem(`title:${params.vote_id}`);
     let total = 0;
     let dropped = 0;
-    let high = 0;
+    let high = 1;
 
     let result = [];
 
@@ -103,6 +104,7 @@
                     </tbody>
                 </table>
 
+            {#if payload.session_id === "admin"}
                 <div class="block">
                     <button
                         class="button is-primary is-primary is-large is-fullwidth"
@@ -110,6 +112,7 @@
                             alert('개발중');
                         }}">다시 투표하기</button>
                 </div>
+            {/if}
             </div>
             <div class="column">
                 <canvas bind:this="{canvas}"></canvas>
