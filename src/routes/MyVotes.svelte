@@ -9,9 +9,7 @@
             let vote_id = e.slice(5);
             votes.push({
                 id: vote_id,
-                title:
-                    localStorage.getItem(`title:${vote_id}`) ??
-                    "[오류] 제목을 불러오지 못함",
+                title: localStorage.getItem(`title:${vote_id}`) ?? "[오류] 제목을 불러오지 못함",
             });
         });
 </script>
@@ -19,9 +17,7 @@
 <section class="section">
     <div class="container">
         <h1 class="title is-1">내 투표</h1>
-        <p class="subtitle">
-            만들었거나 참여중인 투표의 목록을 확인 할 수 있습니다.
-        </p>
+        <p class="subtitle">만들었거나 참여중인 투표의 목록을 확인 할 수 있습니다.</p>
     </div>
 </section>
 

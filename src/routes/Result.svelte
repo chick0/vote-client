@@ -94,10 +94,7 @@
                     </thead>
                     <tbody>
                         {#each result as option}
-                            <tr
-                                class="{option.score == high
-                                    ? 'is-selected'
-                                    : ''}">
+                            <tr class="{option.score == high ? 'is-selected' : ''}">
                                 <td>{option.name}</td>
                                 <td>{option.score}</td>
                                 <td>{option.per}</td>

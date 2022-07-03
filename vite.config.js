@@ -25,12 +25,8 @@ export default defineConfig({
     },
 
     define: {
-        GIT_HASH: JSON.stringify(
-            execSync("git rev-parse HEAD").toString().trim()
-        ),
-        GIT_REMOTE: JSON.stringify(
-            execSync("git remote get-url origin").toString().trim()
-        ),
+        GIT_HASH: JSON.stringify(execSync("git rev-parse HEAD").toString().trim()),
+        GIT_REMOTE: JSON.stringify(execSync("git remote get-url origin").toString().trim()),
 
         APP_VERSION: JSON.stringify(process.env.npm_package_version),
 

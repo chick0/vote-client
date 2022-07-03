@@ -153,11 +153,7 @@
             <p class="subtitle">{status_str}</p>
             <div class="columns">
                 <div class="column">
-                    <img
-                        id="qrcode"
-                        class="image"
-                        src="{qrcode}"
-                        alt="투표 참여 QR코드" />
+                    <img id="qrcode" class="image" src="{qrcode}" alt="투표 참여 QR코드" />
                 </div>
                 <div class="column">
                     <div class="box" style="font-size:1.3rem;">
@@ -202,11 +198,7 @@
                     <button
                         class="button is-dark is-large is-fullwidth"
                         on:click="{() => {
-                            if (
-                                confirm(
-                                    '투표를 마감하고 결과를 확인하시겠습니까?'
-                                )
-                            ) {
+                            if (confirm('투표를 마감하고 결과를 확인하시겠습니까?')) {
                                 push(`/result/${params.vote_id}`);
                             }
                         }}">
@@ -244,16 +236,14 @@
                                     class="button is-primary 
                                 {isFinished == true ? '' : 'is-loading'}"
                                     on:click="{() => {
-                                        const target =
-                                            document.getElementById('opt-new');
+                                        const target = document.getElementById('opt-new');
 
                                         isFinished = false;
                                         fetch(API_OPTIONS, {
                                             method: 'POST',
                                             headers: {
                                                 Authorization: TOKEN,
-                                                'Content-Type':
-                                                    'application/json',
+                                                'Content-Type': 'application/json',
                                             },
                                             body: JSON.stringify({
                                                 // @ts-ignore
@@ -275,9 +265,7 @@
                                                 isFinished = true;
                                             })
                                             .catch(() => {
-                                                alert(
-                                                    '네트워크 오류가 발생했습니다.'
-                                                );
+                                                alert('네트워크 오류가 발생했습니다.');
 
                                                 isFinished = true;
                                             });
@@ -300,16 +288,12 @@
                     {/if}
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label" for="opt-{option.id}"
-                                >선택지 이름</label>
+                            <label class="label" for="opt-{option.id}">선택지 이름</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input
-                                        class="input"
-                                        id="opt-{option.id}"
-                                        bind:value="{option.name}" />
+                                    <input class="input" id="opt-{option.id}" bind:value="{option.name}" />
                                 </div>
                             </div>
                         </div>
@@ -322,16 +306,10 @@
                                 <div class="control">
                                     <button
                                         class="button is-primary
-                                    {option.loading === true
-                                            ? 'is-loading'
-                                            : ''}"
+                                    {option.loading === true ? 'is-loading' : ''}"
                                         on:click="{() => {
                                             if (option.name.length == 0) {
-                                                document
-                                                    .getElementById(
-                                                        `opt-del-${option.id}`
-                                                    )
-                                                    .click();
+                                                document.getElementById(`opt-del-${option.id}`).click();
                                                 return;
                                             }
 
@@ -339,8 +317,7 @@
                                             fetch(API_OPTIONS, {
                                                 method: 'PATCH',
                                                 headers: {
-                                                    'Content-Type':
-                                                        'application/json',
+                                                    'Content-Type': 'application/json',
                                                     Authorization: TOKEN,
                                                 },
                                                 body: JSON.stringify({
@@ -350,9 +327,7 @@
                                             })
                                                 .then((resp) => resp.json())
                                                 .then((json) => {
-                                                    if (
-                                                        json.detail == undefined
-                                                    ) {
+                                                    if (json.detail == undefined) {
                                                         option.name = json.name;
                                                     } else {
                                                         alert(json.detail.msg);
@@ -361,9 +336,7 @@
                                                     option.loading = false;
                                                 })
                                                 .catch(() => {
-                                                    alert(
-                                                        '네트워크 오류가 발생했습니다.'
-                                                    );
+                                                    alert('네트워크 오류가 발생했습니다.');
 
                                                     option.loading = false;
                                                 });
@@ -372,17 +345,14 @@
                                     </button>
                                     <button
                                         class="button is-danger
-                                    {option.loading === true
-                                            ? 'is-loading'
-                                            : ''}"
+                                    {option.loading === true ? 'is-loading' : ''}"
                                         id="opt-del-{option.id}"
                                         on:click="{() => {
                                             option.loading = true;
                                             fetch(API_OPTIONS, {
                                                 method: 'DELETE',
                                                 headers: {
-                                                    'Content-Type':
-                                                        'application/json',
+                                                    'Content-Type': 'application/json',
                                                     Authorization: TOKEN,
                                                 },
                                                 body: JSON.stringify({
@@ -392,16 +362,9 @@
                                                 .then((resp) => resp.json())
                                                 .then((json) => {
                                                     if (json.result == true) {
-                                                        options =
-                                                            options.filter(
-                                                                (x) =>
-                                                                    x.id !=
-                                                                    option.id
-                                                            );
+                                                        options = options.filter((x) => x.id != option.id);
                                                     } else {
-                                                        alert(
-                                                            '삭제에 실패했습니다.'
-                                                        );
+                                                        alert('삭제에 실패했습니다.');
                                                     }
 
                                                     option.loading = false;

@@ -27,11 +27,7 @@
             <div class="field-body">
                 <div class="field">
                     <p class="control">
-                        <input
-                            class="input is-large"
-                            type="text"
-                            id="vote-title"
-                            bind:value="{title}" />
+                        <input class="input is-large" type="text" id="vote-title" bind:value="{title}" />
                     </p>
                 </div>
             </div>
@@ -44,12 +40,7 @@
             <div class="field-body">
                 <div class="field">
                     <p class="control">
-                        <input
-                            class="input is-large"
-                            type="tel"
-                            id="vote-max"
-                            max="50"
-                            bind:value="{max}" />
+                        <input class="input is-large" type="tel" id="vote-max" max="50" bind:value="{max}" />
                     </p>
                 </div>
             </div>
@@ -84,11 +75,7 @@
                                     alert(json.detail.msg);
                                     is_loading = false;
                                 } else {
-                                    setToken(
-                                        json.vote_id,
-                                        json.token,
-                                        json.title
-                                    );
+                                    setToken(json.vote_id, json.token, json.title);
                                     push(`/panel/${json.vote_id}`);
                                 }
                             })

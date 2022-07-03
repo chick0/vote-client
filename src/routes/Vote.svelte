@@ -124,9 +124,7 @@
                         if (json.detail != undefined) {
                             alert(json.detail.msg);
                         } else {
-                            alert(
-                                "투표 과정에서 오류가 발생했습니다. 다시 시도해주세요."
-                            );
+                            alert("투표 과정에서 오류가 발생했습니다. 다시 시도해주세요.");
                         }
                     }
                 });
@@ -164,9 +162,7 @@
     <section class="section">
         <div class="container">
             {#if options.length == 0}
-                <div class="notification is-success">
-                    선택지 목록을 불러오고 있습니다. 잠시만 기다려주세요...
-                </div>
+                <div class="notification is-success">선택지 목록을 불러오고 있습니다. 잠시만 기다려주세요...</div>
             {:else}
                 {#each options as option}
                     <div class="block">

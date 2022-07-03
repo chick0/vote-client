@@ -29,10 +29,7 @@
                 let token = getToken(last);
 
                 if (token != undefined) {
-                    let message = [
-                        "* 진행중인 투표가 감지되었습니다.",
-                        "* 해당 투표를 확인하시겠습니까?",
-                    ];
+                    let message = ["* 진행중인 투표가 감지되었습니다.", "* 해당 투표를 확인하시겠습니까?"];
 
                     if (confirm(message.join("\n"))) {
                         push(`/panel/${last}`);
