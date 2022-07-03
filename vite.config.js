@@ -18,7 +18,7 @@ export default defineConfig({
             plugins: [
                 purgecss({
                     content: ["./src/**/*.svelte"],
-                    safelist: ["html", "button"],
+                    safelist: ["html", "body", "button"],
                 }),
             ],
         },
