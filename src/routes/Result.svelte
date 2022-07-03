@@ -27,6 +27,11 @@
             .then((json) => {
                 if (json.result != undefined) {
                     result = json.result;
+
+                    let last = localStorage.getItem("last");
+                    if(last == params.vote_id){
+                        localStorage.removeItem("last");
+                    }
                 } else {
                     alert(json.detail.msg);
                     push(`/vote/${params.vote_id}`);
