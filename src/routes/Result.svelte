@@ -104,15 +104,15 @@
                     </tbody>
                 </table>
 
-            {#if payload.session_id === "admin"}
-                <div class="block">
-                    <button
-                        class="button is-primary is-primary is-large is-fullwidth"
-                        on:click="{() => {
-                            alert('개발중');
-                        }}">다시 투표하기</button>
-                </div>
-            {/if}
+                {#if payload.session_id === "admin"}
+                    <div class="block">
+                        <button
+                            class="button is-primary is-primary is-large is-fullwidth"
+                            on:click="{() => {
+                                alert('개발중');
+                            }}">다시 투표하기</button>
+                    </div>
+                {/if}
             </div>
             <div class="column">
                 <canvas bind:this="{canvas}"></canvas>

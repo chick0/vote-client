@@ -42,7 +42,7 @@
 
         navbar?.classList.remove("is-active");
 
-        if(path == "/"){
+        if (path == "/") {
             hide = true;
         } else {
             hide = false;
@@ -95,5 +95,5 @@
                 </div>
             </div>
         </div>
-    </section>    
+    </section>
 {/if}

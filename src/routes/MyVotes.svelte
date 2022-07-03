@@ -13,7 +13,7 @@
             });
         });
 
-    if(votes.length == 0){
+    if (votes.length == 0) {
         alert("참여중인 투표가 없습니다!");
         push("/");
     }
