@@ -1,7 +1,7 @@
 <script>
     import { push } from "svelte-spa-router";
     import { WS_PANEL, API_VOTE, API_QRCODE, API_OPTIONS } from "../url.js";
-    import { getToken, getPayload } from "../token.js";
+    import { getToken, getPayload, removeToken } from "../token.js";
     import { webSocketStore } from "../store.js";
     export let params = {};
 
@@ -34,6 +34,10 @@
                 } else {
                     alert(json.detail.msg);
                     push("/");
+
+                    if(json.detail.remove_token === true){
+                        removeToken(params.vote_id);
+                    }
                 }
             })
             .catch(() => {

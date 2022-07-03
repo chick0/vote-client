@@ -3,7 +3,7 @@
     import { get } from "svelte/store";
     import { webSocketStore } from "../store.js";
     import { WS_VOTE, API_OPTIONS, API_VOTE, API_SELECT } from "../url.js";
-    import { getToken, getPayload } from "../token.js";
+    import { getToken, getPayload, removeToken } from "../token.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
@@ -25,6 +25,11 @@
             .then((json) => {
                 if (json.detail != undefined) {
                     alert(json.detail.msg);
+
+                    if(json.detail.remove_token === true){
+                        removeToken(params.vote_id);
+                        push("/");
+                    }
                 } else {
                     title = json.title;
                     status = json.status;

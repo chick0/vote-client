@@ -1,5 +1,10 @@
 import { Buffer } from "buffer/";
 
+export function removeToken(vote_id){
+    localStorage.removeItem(`vote:${vote_id}`);
+    localStorage.removeItem(`title:${vote_id}`);
+}
+
 export function setToken(vote_id, token, title) {
     localStorage.setItem(`vote:${vote_id}`, token);
     localStorage.setItem(`title:${vote_id}`, title);
@@ -28,8 +33,7 @@ function checkAndGetToken(vote_id) {
     let now = new Date().getTime() / 1000;
 
     if (now > payload.exp) {
-        localStorage.removeItem(`vote:${vote_id}`);
-        localStorage.removeItem(`title:${vote_id}`);
+        removeToken(vote_id);
         alert("해당 투표는 삭제되었습니다.");
         return undefined;
     }
