@@ -25,5 +25,9 @@ export default {
         asyncComponent: () => import("./routes/Result.svelte"),
     }),
 
+    "/build": wrap({
+        asyncComponent: () => import("./routes/Build.svelte"),
+    }),
+
     "*": NotFound,
 };
