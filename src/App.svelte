@@ -1,10 +1,20 @@
 <script>
+    import { onMount } from "svelte";
+    import { get } from "svelte/store";
     import Router from "svelte-spa-router";
     import { push, location } from "svelte-spa-router";
-    import { get } from "svelte/store";
     import routes from "./routes.js";
     import { getToken } from "./token.js";
     import { webSocketStore } from "./store.js";
+
+    let navbar = undefined;
+    let navbar_burger = undefined;
+
+    onMount(() => {
+        navbar_burger.addEventListener("click", () => {
+            navbar.classList.toggle("is-active");
+        });
+    });
 
     location.subscribe((path) => {
         let socket = get(webSocketStore);
@@ -30,17 +40,8 @@
                 }
             }
         }
-    });
 
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".navbar-burger").forEach((burger) => {
-            burger.addEventListener("click", () => {
-                document
-                    // @ts-ignore
-                    .getElementById(burger.dataset.target)
-                    .classList.toggle("is-active");
-            });
-        });
+        navbar?.classList.remove("is-active");
     });
 </script>
 
@@ -48,13 +49,13 @@
     <div class="navbar-brand">
         <a class="navbar-item" href="#/">투표</a>
         <!-- svelte-ignore a11y-missing-attribute -->
-        <a role="button" class="navbar-burger" data-target="navbar">
+        <a role="button" class="navbar-burger" bind:this="{navbar_burger}">
             <span></span>
             <span></span>
             <span></span>
         </a>
     </div>
-    <div id="navbar" class="navbar-menu">
+    <div class="navbar-menu" bind:this="{navbar}">
         <div class="navbar-start">
             <a class="navbar-item" href="#/create">투표 생성</a>
             <a class="navbar-item" href="#/my-votes">내 투표</a>
