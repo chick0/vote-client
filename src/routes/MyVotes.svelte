@@ -12,6 +12,11 @@
                 title: localStorage.getItem(`title:${vote_id}`) ?? "[오류] 제목을 불러오지 못함",
             });
         });
+
+    if(votes.length == 0){
+        alert("참여중인 투표가 없습니다!");
+        push("/");
+    }
 </script>
 
 <section class="section">
