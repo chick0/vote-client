@@ -87,6 +87,7 @@
 
     // option
     let options = [];
+    let isFinished = true;
 
     $: if (title.length != 0) {
         fetch(API_OPTIONS, {
@@ -97,7 +98,6 @@
         })
             .then((resp) => resp.json())
             .then((json) => {
-                options = [];
                 options = json.options;
             });
     }
@@ -226,11 +226,13 @@
                     <div class="field">
                         <div class="control">
                             <button
-                                class="button is-primary"
+                                class="button is-primary 
+                                {isFinished == true ? '' : 'is-loading'}"
                                 on:click="{() => {
                                     const target =
                                         document.getElementById('opt-new');
 
+                                    isFinished = false;
                                     fetch(API_OPTIONS, {
                                         method: 'POST',
                                         headers: {
@@ -253,6 +255,15 @@
                                             } else {
                                                 alert(json.detail.msg);
                                             }
+
+                                            isFinished = true;
+                                        })
+                                        .catch(() => {
+                                            alert(
+                                                '네트워크 오류가 발생했습니다.'
+                                            );
+
+                                            isFinished = true;
                                         });
                                 }}">
                                 저장
@@ -294,7 +305,10 @@
                         <div class="field">
                             <div class="control">
                                 <button
-                                    class="button is-primary"
+                                    class="button is-primary
+                                    {option.loading === true
+                                        ? 'is-loading'
+                                        : ''}"
                                     on:click="{() => {
                                         if (option.name.length == 0) {
                                             document
@@ -305,6 +319,7 @@
                                             return;
                                         }
 
+                                        option.loading = true;
                                         fetch(API_OPTIONS, {
                                             method: 'PATCH',
                                             headers: {
@@ -324,14 +339,27 @@
                                                 } else {
                                                     alert(json.detail.msg);
                                                 }
+
+                                                option.loading = false;
+                                            })
+                                            .catch(() => {
+                                                alert(
+                                                    '네트워크 오류가 발생했습니다.'
+                                                );
+
+                                                option.loading = false;
                                             });
                                     }}">
                                     저장
                                 </button>
                                 <button
-                                    class="button is-danger"
+                                    class="button is-danger
+                                    {option.loading === true
+                                        ? 'is-loading'
+                                        : ''}"
                                     id="opt-del-{option.id}"
                                     on:click="{() => {
+                                        option.loading = true;
                                         fetch(API_OPTIONS, {
                                             method: 'DELETE',
                                             headers: {
@@ -354,6 +382,8 @@
                                                         '삭제에 실패했습니다.'
                                                     );
                                                 }
+
+                                                option.loading = false;
                                             });
                                     }}">
                                     삭제

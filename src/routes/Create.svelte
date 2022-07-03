@@ -58,10 +58,8 @@
         <div class="field">
             <div class="control">
                 <button
-                    class="button is-primary is-large is-fullwidth {is_loading ==
-                    true
-                        ? 'is-loading'
-                        : ''}"
+                    class="button is-primary is-large is-fullwidth
+                    {is_loading == true ? 'is-loading' : ''}"
                     on:click="{() => {
                         if (is_loading == true) {
                             alert('투표 생성 요청이 처리중입니다...');
