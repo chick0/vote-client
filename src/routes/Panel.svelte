@@ -35,7 +35,7 @@
                     alert(json.detail.msg);
                     push("/");
 
-                    if(json.detail.remove_token === true){
+                    if (json.detail.remove_token === true) {
                         removeToken(params.vote_id);
                     }
                 }

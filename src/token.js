@@ -1,6 +1,6 @@
 import { Buffer } from "buffer/";
 
-export function removeToken(vote_id){
+export function removeToken(vote_id) {
     localStorage.removeItem(`vote:${vote_id}`);
     localStorage.removeItem(`title:${vote_id}`);
 }

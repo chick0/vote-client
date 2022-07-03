@@ -26,7 +26,7 @@
                 if (json.detail != undefined) {
                     alert(json.detail.msg);
 
-                    if(json.detail.remove_token === true){
+                    if (json.detail.remove_token === true) {
                         removeToken(params.vote_id);
                         push("/");
                     }

@@ -29,7 +29,7 @@
                     result = json.result;
 
                     let last = localStorage.getItem("last");
-                    if(last == params.vote_id){
+                    if (last == params.vote_id) {
                         localStorage.removeItem("last");
                     }
                 } else {
