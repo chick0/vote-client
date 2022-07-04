@@ -25,7 +25,7 @@ export default defineConfig({
     },
 
     define: {
-        BUILD_DATE: JSON.stringify(new Date().toString()),
+        BUILD_DATE: JSON.stringify(new Date().toISOString()),
         GIT_HASH: JSON.stringify(execSync("git rev-parse HEAD").toString().trim()),
         GIT_REMOTE: JSON.stringify(execSync("git remote get-url origin").toString().trim()),
         APP_VERSION: JSON.stringify(process.env.npm_package_version),

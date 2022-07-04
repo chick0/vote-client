@@ -1,7 +1,7 @@
 <script>
     import { HOST } from "../url.js";
 
-    let build_date = BUILD_DATE;
+    let build_date = new Date(BUILD_DATE).toLocaleString();
     let version = APP_VERSION;
 
     let git_hash = GIT_HASH.slice(0, 7);
