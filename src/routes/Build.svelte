@@ -1,6 +1,7 @@
 <script>
     import { HOST } from "../url.js";
 
+    let build_date = BUILD_DATE;
     let version = APP_VERSION;
 
     let git_hash = GIT_HASH.slice(0, 7);
@@ -22,6 +23,11 @@
             <h5 class="title is-5">env</h5>
             <p><b>MODE</b>: {import.meta.env.MODE}</p>
             <p><b>SSR</b>: {import.meta.env.SSR}</p>
+        </div>
+
+        <div class="box">
+            <h5 class="title is-5">build date</h5>
+            <p>{build_date}</p>
         </div>
 
         <div class="box">
