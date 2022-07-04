@@ -5,7 +5,6 @@
     import { push, location } from "svelte-spa-router";
     import routes from "./routes.js";
     import { getToken } from "./token.js";
-    import { webSocketStore } from "./store.js";
 
     let navbar = undefined;
     let navbar_burger = undefined;
@@ -19,12 +18,6 @@
     let hide = false;
 
     location.subscribe((path) => {
-        let socket = get(webSocketStore);
-        if (socket != undefined) {
-            socket.close();
-            webSocketStore.set(undefined);
-        }
-
         if (path.startsWith("/create")) {
             let last = localStorage.getItem("last");
             if (last != null) {

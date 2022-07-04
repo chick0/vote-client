@@ -1,8 +1,6 @@
 <script>
-    import { push, location } from "svelte-spa-router";
-    import { get } from "svelte/store";
-    import { webSocketStore } from "../store.js";
-    import { WS_VOTE, API_OPTIONS, API_VOTE, API_SELECT } from "../url.js";
+    import { push } from "svelte-spa-router";
+    import { API_OPTIONS, API_VOTE, API_SELECT } from "../url.js";
     import { getToken, getPayload, removeToken } from "../token.js";
     export let params = {};
 
@@ -15,6 +13,10 @@
     } else if (payload.session_id == "admin") {
         push(`/panel/${params.vote_id}`);
     } else {
+        fetchVoteInformaion();
+    }
+
+    function fetchVoteInformaion(){
         fetch(API_VOTE, {
             method: "GET",
             headers: {
@@ -23,68 +25,35 @@
         })
             .then((resp) => resp.json())
             .then((json) => {
-                if (json.detail != undefined) {
+                if (json.detail == undefined) {
+                    if (json.status == 2) {
+                        push(`/result/${params.vote_id}`);
+                    } else {
+                        title = json.title;
+                        status = json.status;
+                    }
+                } else {
                     alert(json.detail.msg);
+                    push("/");
 
                     if (json.detail.remove_token === true) {
                         removeToken(params.vote_id);
-                        push("/");
                     }
-                } else {
-                    title = json.title;
-                    status = json.status;
                 }
+            })
+            .catch(() => {
+                alert("네트워크 오류가 발생했습니다.");
+                push("/");
             });
     }
 
+    // vote information
     let status = -1;
     let title = "";
     let options = [];
 
-    let unsubscribe = undefined;
-    unsubscribe = location.subscribe((path) => {
-        if (!path.startsWith(`/vote/${params.vote_id}`)) {
-            let socketStore = get(webSocketStore);
-
-            if (socketStore != undefined) {
-                socketStore.close();
-                webSocketStore.set(undefined);
-            }
-
-            unsubscribe();
-        }
-    });
-
-    let initHere = false;
-
-    function initWebSocket() {
-        let socketStore = get(webSocketStore);
-
-        if (socketStore != undefined) {
-            socketStore.close();
-        }
-
-        let ws = new WebSocket(WS_VOTE);
-
-        ws.onopen = () => {
-            ws.send(TOKEN.slice(7));
-        };
-
-        ws.onmessage = (e) => {
-            status = Number(e.data);
-        };
-
-        webSocketStore.set(ws);
-        initHere = true;
-    }
-
-    $: if (status == 0) {
-        initWebSocket();
-    } else if (status == 1) {
-        if (initHere == false) {
-            initWebSocket();
-        }
-
+    $: console.log("status", status);
+    $: if (status == 1) {
         fetch(API_OPTIONS, {
             method: "GET",
             headers: {

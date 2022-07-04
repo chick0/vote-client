@@ -1,8 +1,7 @@
 <script>
     import { push } from "svelte-spa-router";
-    import { WS_PANEL, API_VOTE, API_QRCODE, API_OPTIONS } from "../url.js";
+    import { API_VOTE, API_QRCODE, API_OPTIONS } from "../url.js";
     import { getToken, getPayload, removeToken } from "../token.js";
-    import { webSocketStore } from "../store.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
@@ -15,6 +14,10 @@
     } else if (payload.session_id != "admin") {
         push(`/vote/${params.vote_id}`);
     } else {
+        fetchVoteInformaion();
+    }
+
+    function fetchVoteInformaion(){
         fetch(API_VOTE, {
             method: "GET",
             headers: {
@@ -32,6 +35,11 @@
                         status = json.status;
 
                         isLoaded = true;
+
+                        if(status != 2){
+                            fetchQRCode();
+                            fetchOptions();
+                        }
                     }
                 } else {
                     alert(json.detail.msg);
@@ -48,23 +56,20 @@
             });
     }
 
-    //
-    let isLoaded = false;
+    function fetchOptions(){
+        fetch(API_OPTIONS, {
+            method: "GET",
+            headers: {
+                Authorization: TOKEN,
+            },
+        })
+            .then((resp) => resp.json())
+            .then((json) => {
+                options = json.options;
+            });
+    }
 
-    // vote information
-    let max = 51;
-    let title = "";
-    let status = undefined;
-    let status_str = "";
-    let qrcode = "";
-
-    $: status_str = {
-        0: "투표 시작 대기중",
-        1: "투표중",
-        2: "투표 종료됨",
-    }[status];
-
-    $: if (title.length != 0) {
+    function fetchQRCode(){
         let fromStorage = sessionStorage.getItem(`qrcode:${params.vote_id}`);
         if (fromStorage == undefined) {
             fetch(API_QRCODE, {
@@ -83,6 +88,22 @@
         }
     }
 
+    //
+    let isLoaded = false;
+
+    // vote information
+    let max = 51;
+    let title = "";
+    let status = undefined;
+    let status_str = "";
+    let qrcode = "";
+
+    $: status_str = {
+        0: "투표 시작 대기중",
+        1: "투표중",
+        2: "투표 종료됨",
+    }[status];
+
     // vote status
     let joined = 0;
     let selected = 0;
@@ -95,50 +116,6 @@
     let isFinished = true;
 
     let newOption = undefined;
-
-    $: if (title.length != 0) {
-        fetch(API_OPTIONS, {
-            method: "GET",
-            headers: {
-                Authorization: TOKEN,
-            },
-        })
-            .then((resp) => resp.json())
-            .then((json) => {
-                options = json.options;
-            });
-    }
-
-    // websocket
-    $: if (title.length != 0) {
-        let ws = new WebSocket(WS_PANEL);
-        ws.onopen = () => {
-            ws.send(TOKEN.slice(7));
-        };
-
-        ws.onmessage = (e) => {
-            let payload = e.data.split(",");
-            joined = payload[0];
-            selected = payload[1];
-
-            if (max == selected) {
-                alert("모든 사람이 투표에 참여해 투표가 마감됩니다.");
-                push(`/result/${params.vote_id}`);
-            }
-        };
-
-        ws.onclose = (e) => {
-            if (e.reason.length != 0) {
-                alert(e.reason);
-            }
-        };
-
-        ws.onerror = () => {
-            alert("실시간 투표 정보를 불러오는 과정에서 오류가 발생했습니다.");
-        };
-
-        webSocketStore.set(ws);
-    }
 </script>
 
 {#if isLoaded == false}
