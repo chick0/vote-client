@@ -3,6 +3,7 @@ import { Buffer } from "buffer/";
 export function removeToken(vote_id) {
     localStorage.removeItem(`vote:${vote_id}`);
     localStorage.removeItem(`title:${vote_id}`);
+    sessionStorage.removeItem(`qrcode:${vote_id}`);
 }
 
 export function setToken(vote_id, token, title) {
