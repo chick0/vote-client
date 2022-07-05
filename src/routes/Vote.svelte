@@ -1,7 +1,8 @@
 <script>
     import { push } from "svelte-spa-router";
-    import { API_OPTIONS, API_VOTE, API_SELECT } from "../url.js";
+    import { API_OPTIONS, API_VOTE, API_SELECT, API_STATUS } from "../url.js";
     import { getToken, getPayload, removeToken } from "../token.js";
+    import { interval_id } from "../store.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
@@ -31,6 +32,20 @@
                     } else {
                         title = json.title;
                         status = json.status;
+
+                        function updateStatus(){
+                            fetch(API_STATUS, {
+                                headers: {
+                                    Authorization: TOKEN
+                                }
+                            }).then((resp) => resp.json()).then((json) => {
+                                status = json.status;
+                            });
+                        }
+
+                        updateStatus();
+                        let tmp = setInterval(updateStatus, 3000);
+                        interval_id.set(tmp);
                     }
                 } else {
                     alert(json.detail.msg);
@@ -52,7 +67,6 @@
     let title = "";
     let options = [];
 
-    $: console.log("status", status);
     $: if (status == 1) {
         fetch(API_OPTIONS, {
             method: "GET",

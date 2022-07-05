@@ -1,7 +1,8 @@
 <script>
     import { push } from "svelte-spa-router";
-    import { API_VOTE, API_QRCODE, API_OPTIONS } from "../url.js";
+    import { API_VOTE, API_QRCODE, API_OPTIONS, API_STATUS } from "../url.js";
     import { getToken, getPayload, removeToken } from "../token.js";
+    import { interval_id } from "../store.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
@@ -39,6 +40,27 @@
                         if(status != 2){
                             fetchQRCode();
                             fetchOptions();
+
+                            function updateStatus(){
+                                fetch(API_STATUS, {
+                                    headers: {
+                                        Authorization: TOKEN
+                                    }
+                                }).then((resp) => resp.json()).then((json) => {
+                                    joined = json.joined;
+                                    selected = json.selected;
+                                    status = json.status;
+
+                                    if(max == selected){
+                                        alert("모든 사람이 투표에 참여해 투표가 마감됩니다.");
+                                        push(`/result/${params.vote_id}`);
+                                    }
+                                });
+                            }
+
+                            updateStatus();
+                            let tmp = setInterval(updateStatus, 3000);
+                            interval_id.set(tmp);
                         }
                     }
                 } else {

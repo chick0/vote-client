@@ -5,6 +5,8 @@
     import { push, location } from "svelte-spa-router";
     import routes from "./routes.js";
     import { getToken } from "./token.js";
+    import { interval_id } from "./store.js";
+
 
     let navbar = undefined;
     let navbar_burger = undefined;
@@ -18,6 +20,12 @@
     let hide = false;
 
     location.subscribe((path) => {
+        let tmp = get(interval_id);
+        if(tmp != undefined){
+            clearInterval(tmp);
+            interval_id.set(undefined);
+        }
+
         if (path.startsWith("/create")) {
             let last = localStorage.getItem("last");
             if (last != null) {
