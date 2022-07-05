@@ -7,7 +7,6 @@
     import { getToken } from "./token.js";
     import { interval_id } from "./store.js";
 
-
     let navbar = undefined;
     let navbar_burger = undefined;
 
@@ -21,7 +20,7 @@
 
     location.subscribe((path) => {
         let tmp = get(interval_id);
-        if(tmp != undefined){
+        if (tmp != undefined) {
             clearInterval(tmp);
             interval_id.set(undefined);
         }

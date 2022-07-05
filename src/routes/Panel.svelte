@@ -18,7 +18,7 @@
         fetchVoteInformaion();
     }
 
-    function fetchVoteInformaion(){
+    function fetchVoteInformaion() {
         fetch(API_VOTE, {
             method: "GET",
             headers: {
@@ -37,25 +37,27 @@
 
                         isLoaded = true;
 
-                        if(status != 2){
+                        if (status != 2) {
                             fetchQRCode();
                             fetchOptions();
 
-                            function updateStatus(){
+                            function updateStatus() {
                                 fetch(API_STATUS, {
                                     headers: {
-                                        Authorization: TOKEN
-                                    }
-                                }).then((resp) => resp.json()).then((json) => {
-                                    joined = json.joined;
-                                    selected = json.selected;
-                                    status = json.status;
+                                        Authorization: TOKEN,
+                                    },
+                                })
+                                    .then((resp) => resp.json())
+                                    .then((json) => {
+                                        joined = json.joined;
+                                        selected = json.selected;
+                                        status = json.status;
 
-                                    if(max == selected){
-                                        alert("모든 사람이 투표에 참여해 투표가 마감됩니다.");
-                                        push(`/result/${params.vote_id}`);
-                                    }
-                                });
+                                        if (max == selected) {
+                                            alert("모든 사람이 투표에 참여해 투표가 마감됩니다.");
+                                            push(`/result/${params.vote_id}`);
+                                        }
+                                    });
                             }
 
                             updateStatus();
@@ -78,7 +80,7 @@
             });
     }
 
-    function fetchOptions(){
+    function fetchOptions() {
         fetch(API_OPTIONS, {
             method: "GET",
             headers: {
@@ -91,7 +93,7 @@
             });
     }
 
-    function fetchQRCode(){
+    function fetchQRCode() {
         let fromStorage = sessionStorage.getItem(`qrcode:${params.vote_id}`);
         if (fromStorage == undefined) {
             fetch(API_QRCODE, {

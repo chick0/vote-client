@@ -17,7 +17,7 @@
         fetchVoteInformaion();
     }
 
-    function fetchVoteInformaion(){
+    function fetchVoteInformaion() {
         fetch(API_VOTE, {
             method: "GET",
             headers: {
@@ -33,14 +33,16 @@
                         title = json.title;
                         status = json.status;
 
-                        function updateStatus(){
+                        function updateStatus() {
                             fetch(API_STATUS, {
                                 headers: {
-                                    Authorization: TOKEN
-                                }
-                            }).then((resp) => resp.json()).then((json) => {
-                                status = json.status;
-                            });
+                                    Authorization: TOKEN,
+                                },
+                            })
+                                .then((resp) => resp.json())
+                                .then((json) => {
+                                    status = json.status;
+                                });
                         }
 
                         updateStatus();
