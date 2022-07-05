@@ -10,3 +10,4 @@ export const API_OPTIONS = HOST + "/api/options";
 export const API_QRCODE  = HOST + "/api/qrcode";
 export const API_SELECT  = HOST + "/api/select";
 export const API_STATUS  = HOST + "/api/status";
+export const API_RESTART = HOST + "/api/restart";

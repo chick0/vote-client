@@ -2,7 +2,8 @@
     import { push } from "svelte-spa-router";
     import { Chart, ArcElement, Tooltip, PieController } from "chart.js";
     import { getToken, getPayload } from "../token.js";
-    import { API_RESULT } from "../url.js";
+    import { API_RESULT, API_RESTART, API_STATUS } from "../url.js";
+    import { interval_id } from "../store.js";
     export let params = {};
 
     const TOKEN = getToken(params.vote_id);
@@ -32,6 +33,25 @@
                     let last = localStorage.getItem("last");
                     if (last == params.vote_id) {
                         localStorage.removeItem("last");
+                    }
+
+                    function updateStatus() {
+                        fetch(API_STATUS, {
+                            headers: {
+                                Authorization: TOKEN,
+                            },
+                        })
+                            .then((resp) => resp.json())
+                            .then((json) => {
+                                if (json.status != 2) {
+                                    push(`/vote/${params.vote_id}`);
+                                }
+                            });
+                    }
+
+                    if (payload.session_id != "admin") {
+                        let tmp = setInterval(updateStatus, 3000);
+                        interval_id.set(tmp);
                     }
                 } else {
                     alert(json.detail.msg);
@@ -109,7 +129,20 @@
                         <button
                             class="button is-primary is-primary is-large is-fullwidth"
                             on:click="{() => {
-                                alert('개발중');
+                                fetch(API_RESTART, {
+                                    method: 'PATCH',
+                                    headers: {
+                                        Authorization: TOKEN,
+                                    },
+                                })
+                                    .then((resp) => resp.json())
+                                    .then((json) => {
+                                        if (json.result === true) {
+                                            push(`/panel/${params.vote_id}`);
+                                        } else {
+                                            alert(json.detail.msg);
+                                        }
+                                    });
                             }}">다시 투표하기</button>
                     </div>
                 {/if}
