@@ -7,6 +7,10 @@
     import { getToken } from "./token.js";
     import { interval_id } from "./store.js";
 
+    if (window.location.pathname.indexOf("index.html") == 1) {
+        window.location.replace("/" + window.location.hash);
+    }
+
     let navbar = undefined;
     let navbar_burger = undefined;
 
