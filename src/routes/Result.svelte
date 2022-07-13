@@ -9,7 +9,7 @@
     const TOKEN = getToken(params.vote_id);
     let payload = getPayload(TOKEN);
 
-    let title = localStorage.getItem(`title:${params.vote_id}`);
+    let title = payload.title;
     let total = 0;
     let dropped = 0;
     let high = 1;

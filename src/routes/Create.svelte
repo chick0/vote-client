@@ -75,7 +75,7 @@
                                     alert(json.detail.msg);
                                     is_loading = false;
                                 } else {
-                                    setToken(json.vote_id, json.token, json.title);
+                                    setToken(json.vote_id, json.token);
                                     push(`/panel/${json.vote_id}`);
                                 }
                             })

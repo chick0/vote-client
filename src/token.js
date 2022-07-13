@@ -1,14 +1,13 @@
+import Cookies from "js-cookie";
 import { Buffer } from "buffer/";
 
 export function removeToken(vote_id) {
-    localStorage.removeItem(`vote:${vote_id}`);
-    localStorage.removeItem(`title:${vote_id}`);
+    Cookies.remove(vote_id.toString());
     sessionStorage.removeItem(`qrcode:${vote_id}`);
 }
 
-export function setToken(vote_id, token, title) {
-    localStorage.setItem(`vote:${vote_id}`, token);
-    localStorage.setItem(`title:${vote_id}`, title);
+export function setToken(vote_id, token) {
+    Cookies.set(vote_id.toString(), token, { expires: 1 });
 }
 
 export function getPayload(token) {
@@ -24,8 +23,7 @@ export function getPayload(token) {
 }
 
 function checkAndGetToken(vote_id) {
-    let token = localStorage.getItem(`vote:${vote_id}`);
-
+    let token = Cookies.get(vote_id.toString());
     let payload = getPayload(token);
     if (payload == undefined) {
         return undefined;

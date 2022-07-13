@@ -1,15 +1,20 @@
 <script>
+    import Cookies from "js-cookie";
     import { push } from "svelte-spa-router";
+    import { getPayload } from "../token.js";
 
     let votes = [];
 
-    Object.keys(localStorage)
-        .filter((x) => x.startsWith("vote:"))
-        .forEach((e) => {
-            let vote_id = e.slice(5);
+    document.cookie
+        .split(";")
+        .map((x) => x.slice(0, x.indexOf("=")))
+        .forEach((vote_id) => {
+            let token = Cookies.get(vote_id.toString());
+            let payload = getPayload(token);
+
             votes.push({
                 id: vote_id,
-                title: localStorage.getItem(`title:${vote_id}`) ?? "[오류] 제목을 불러오지 못함",
+                title: payload.title ?? "[오류] 제목을 불러오지 못함",
             });
         });
 

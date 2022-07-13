@@ -28,7 +28,7 @@
             .then((resp) => resp.json())
             .then((json) => {
                 if (json.detail == undefined) {
-                    setToken(json.vote_id, json.token, json.title);
+                    setToken(json.vote_id, json.token);
                     push(`/vote/${json.vote_id}`);
                 } else {
                     alert(json.detail.msg);
