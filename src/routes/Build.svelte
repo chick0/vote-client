@@ -2,7 +2,11 @@
     import { HOST } from "../url.js";
 
     let build_date = new Date(BUILD_DATE).toLocaleString();
+
     let version = APP_VERSION;
+    if (!version.startsWith("v")) {
+        version = "v" + version;
+    }
 
     let git_hash = GIT_HASH.slice(0, 7);
     let git_remote = GIT_REMOTE;
