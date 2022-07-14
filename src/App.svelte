@@ -7,6 +7,19 @@
     import { getToken } from "./token.js";
     import { interval_id } from "./store.js";
 
+    window.addEventListener("un" + "handled" + "rejection", () => {
+        const PATH_HASH = window.location.hash;
+
+        if (sessionStorage.getItem(PATH_HASH) !== "true") {
+            alert("알 수 없는 오류가 발생했습니다!");
+            sessionStorage.setItem(PATH_HASH, "true");
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem(PATH_HASH);
+            window.location.replace("/");
+        }
+    });
+
     if (window.location.pathname.indexOf("index.html") == 1) {
         window.location.replace("/" + window.location.hash);
     }
