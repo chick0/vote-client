@@ -10,12 +10,15 @@
         .map((x) => x.slice(0, x.indexOf("=")))
         .forEach((vote_id) => {
             let token = Cookies.get(vote_id.toString());
-            let payload = getPayload(token);
 
-            votes.push({
-                id: vote_id,
-                title: payload.title ?? "[오류] 제목을 불러오지 못함",
-            });
+            if (token != undefined) {
+                let payload = getPayload(token);
+
+                votes.push({
+                    id: vote_id,
+                    title: payload.title ?? "[오류] 제목을 불러오지 못함",
+                });
+            }
         });
 
     if (votes.length == 0) {
